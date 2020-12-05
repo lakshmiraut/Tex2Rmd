@@ -1,14 +1,11 @@
 \documentclass[12pt,svgnames]{article}
-%
 \input{C:/Raut/Workfile/Papers/TopBiblatex}
-\bibliography{BibFile1.bib,BibFile2.bib}
-%\bibliography{Rautlib,eBooks,Raut_Own}
+\bibliography{BibFile1.bib}
 \newtheorem{assn}{Assumption}
-\input tcilatex
 
 \begin{document}
-\title{Tex2Rmd: A package to covert Latex document to Rmarkdown and then to html and word format\thanks{%
-Many thanks for user comments.
+\title{Tex2Rmd: A package to covert Latex document to R markdown and in turn to html and Microsoft word format\thanks{%
+Many thanks for comments.
 }}
 \author{Lakshmi K. Raut \\
 Visiting Fellow, CEHD\\
@@ -18,25 +15,49 @@ University of Chicago\\
 \date{\today}
 \maketitle 
 \begin{abstract}
-The article describes a typical features of a Latex document that can be converted to the Rmarkdown format using this package. The converted markdown document, possibly after further addition of other R chunks, can be converted to html and word documents. It is also possible to convert back to Latex, but you may have to tweak it a little to make the latex output look nice. 
+The article describes the typical features of a Latex document that this package can convert to the Rmarkdown format. The converted markdown document, possibly after further addition of other R chunks and edits, can be converted to html and word documents using R package knitr. It is also possible to convert it back to Latex, but you may have to tweak it a little to make the latex output look nice. 
 
 \textbf{Keywords:} Latex, html, Rmarkdown, Microsoft word. 
 \end{abstract}
 
 \section{Introduction}\label{sec1}
-This article uses bits and pieces Latex contents from my own papers to illustrate features of this package. The binaries are given for windows (32bit should also work for 64bit and Linux 64bit). It is important to \emph{emphasize} in bold text \textbf{NOT ALL} features involving complex formatting codes can be converted.  It incorporates the basic minimum features that are generally used in a Ph.D. thesis, scientific article or a book. See this footnote\footnote{%
-It does not convert latex tables completely. This verion of the software only creates a template for table with caption and label, you need to fill in the details in Rmarkdown document.} for limitations on converting Latex table environment.
+This article uses bits and pieces of Latex contents from my own papers to illustrate features of this package. It is important to \emph{emphasize} in \textbf{bold text that NOT ALL} features involving complex formatting codes in the Latex can be converted. It will convert only those that it is able to convert and the rest will be left alone. It incorporates basic minimum features generally used in a Ph.D. thesis, scientific article or a book. See this footnote\footnote{%
+It does not convert latex tables completely. This version of the software only creates a template for table with caption and label, you need to fill in the details in R markdown document.} for limitations on converting Latex table environment.
 
-Section \ref{sec2} discusses how it converts references. \autoref{sec3} shows what kind of equations both displayed and inline are converted. Section \ref{sec4} shows conversions of figures and tables. \autoref{sec5} describes the list like environments such as itemize, enumerate and description. These environments may be present inside other environments such as in proposition, theorem etc, as shown in \autoref{sec6}. Conversions of list environments are not perfect, you may need some tweaking in the converted Rmarkdown document. \autoref{sec6} shows theorem like Latex environments such as Theorem, Lemma, Proposition each with its own auto numbering and proof like environments without numbering. \autoref{sec7} discusses a few important facts and how to do remarks.
+Section \ref{sec2} describes how to get the software and use it. It runs under 32bit or 64bit windows 7, 8, 10 and 64bit Linux operating system. I programmed it in C++ and Java. In future, I will develop an R package that can combine knitr step to produce directly html file.  The steps are simplified to minimum of just downloading an exec file meant for your operating system and running it on your Latex file. The rest of the article describes various features of Latex document, it can convert. 
+ 
+Section \ref{sec3} discusses how it converts references. \autoref{sec4} shows what kind of equations both displayed and inline are converted. Pretty much it converts all math formats. Section \ref{sec5} shows conversions of figures and tables. \autoref{sec6} describes the list like environments such as itemize, enumerate and description. These environments may be present inside other environments such as in propositions, theorems, lemmas, conjectures, proofs, remarks etc, as shown in \autoref{sec7}. Conversions of list environments are not perfect, you may need some tweaking in the converted Rmarkdown document. \autoref{sec7} shows theorem like Latex environments such as Theorem, Lemma, Proposition each with its own auto numbering, and proof like environments without numbering. \autoref{sec8} discusses a few important facts and how to remark.
 
+\section{Installation and Running}\label{sec2}
+The software runs on 32bit and 64bit windows and 64bit Linux operating systems.  Just download the exec file for your operating system and run it. You can find the exec files here \url{https://github.com/lakshmiraut/Tex2Rmd/releases/tag/V0.1}. In this directory, you can also find a pdf file Temp1.pdf created using xelatex on the source file Temp1.tex, and also the R markdown, html and word files created by this program (creating Rmd file) and knitr in R or Rstudio (creating html and docx files).
 
+Easiest way to start is to run the exec file by typing tex2rmd. It will show it's usage as below:
 
-\section {Referencing}\label{sec2}
+usage: tex2rmd inputTexFileName.tex -b bibFile.bib -o outputRmdFileName.Rmd 
+
+where inputTexFileName.tex is the name of the source tex file. The rest are optional. If you did not provide the rest, it will not use any bibliography file (which you can add later) and also it will save the Rmd file in the source text directory with the same file name appending "-converted" and with file extension Rmd.  
+
+-b bibFile.bib means user provides a bibliography file, which in this example is named bibFile.  It can use only bibliography files in bibTex format. This you specify if you have references in your document.
+
+-o outputRmdFileName.Rmd means user provides a name the the R markdown file. If it is not provided, then the program will create a file in the same directory with the same source filename with -converted appended with extension Rmd in the same directory as the source file.
+
+Next step:You can edit and add R markdown chunks and then use knitr to convert the Rmd file to html or word document.  
+
+As an example, I used Example1.tex and bibFile1.bib, and ran  
+
+tex2rmd Example1.tex -b bibFile1.bib  
+
+creates Example1-converted.Rmd. You can download those files to a directory of your choice and ran the above command.  If you want to convert this Rmd file to other formats, you also need to download any other files it refers to, in this case tree1.png file. I then use knitr on the file Example1-converted.Rmd to create html file Example1-converted.html. You can also create word document using the appropriate yml commands on the top of the Rmd file. 
+
+\section {Referencing}\label{sec3}
+The program converts pretty much all formats of citation.  For instance, the text with citations as given below converts perfectly.
+
 The main findings in \citep{Aalen.etal_2008_Book,Kanherkar.etal_2014} are that .... For the effects of early childhood factors on school and labor market outcomes, see \cite{Heckman.Raut_2016}, and also see \cite{Raut_2018} with an updated references. In machine learning, \cite{Altae-Tran_2016,Altae-Tran.etal_2017} show how an RNN can be used with limited data. 
 
-\section{Equations}\label{sec3}
+\section{Equations}\label{sec4}
 
-Here is an eqnarray environment copied directly from my paper, \cite{Raut_2019}. 
+Here is an eqnarray environment copied directly from the Latex source file of my paper, \cite{Raut_2019}. 
+
 \begin{eqnarray}
 \lambda _{hj}(t) &=&\lim_{\Delta t\rightarrow 0}\frac{P_{hj}(t,t+\Delta
 t)-P_{hj}\left( t,t\right) }{\Delta t},\text{for }j\in S,\text{ which for }%
@@ -50,9 +71,9 @@ and for }j=h\text{ becomes}  \notag \\
 &=&-\sum_{j\neq h}\lambda _{hj}\left( t\right)   \notag
 \end{eqnarray}%
 
-See section \ref{sec6} for more equations.  You can have inline math such as $\int f(x) d\mu(x)$. 
+See section \ref{sec7} for more equations.  You can have inline math such as $\int f(x) d\mu(x)$. Make sure there are trailing spaces of the text of this inline math equation, that sometimes do not convert properly.
 
-\section{Figures and Tables} \label{sec4}
+\section{Figures and Tables} \label{sec5}
 
 This is an example of converting a Latex figure with includegraphics in png format. It can be referred in the text using \autoref{fig1}.
  
@@ -150,7 +171,7 @@ $ & -0.0884944056 & (1.4123165415, 0, 0.39660878 -1.1724263009) \\
 \end{table}
 %=================================================================
 
-\section{List like environments: itemize, enumerate, description}\label{sec5}
+\section{List like environments: itemize, enumerate, description}\label{sec6}
 
 Enumerate items
 
@@ -173,9 +194,11 @@ Description items
   
   \item Tables: It converts tables as a Rmarkdown table chunk keeping only the label and caption of the Latex tables. The references to the table is also converted throughout the document.  The content of a Latex table may involve complex structure and often created using excel or R and better left for various R packages to create those Rmarkdown table contents in the converted Rmarkdown document.
   
+  \item It converts other Latex envirnments: quote,  and other Latex commands as  \\section, \\subsection, \\subsubsection,  \\emph, \\texbf \\url \\footnote.  This document contains all these, so you can compare the source file and converted file to see those.  For other examples, go to my publications page \url{https://lakshmiraut.github.io/publication/}, click on the preprint button, or to my main page, \url{https://lakshmiraut.github.io}.
+  
 \end{description} 
 
-\section{Theorem like environments} \label{sec6}
+\section{Theorem like environments} \label{sec7}
 I illustrate the content of this section taking a section of my paper, \cite{Raut_2017a}. This involves definition, theorem and proof environments.  Similarly, it will convert other theorem and theorem like environments of your Latex document.
  
 \begin{definition}
@@ -219,14 +242,14 @@ condition of the optimization problem is given by
 \begin{equation}
 \frac{w_{t}^{\prime }\left( s_{t}\right) }{\theta _{1}^{\prime }\left(
 s_{t}\right) }=\theta _{2}\left( \tau _{t}\right) \theta _{3}\left(
-s_{t-1}\right)  \label{eqq2}
+s_{t-1}\right)  \label{eq10}
 \end{equation}
 
 The rest is given in \cite{Raut_2017a}.
 
 \end{proof}
 
-\section{Remarks} \label{sec7}
+\section{Remarks} \label{sec8}
 
 Remarks are numbered and and can have labels which can used to refer to them in the text.
 
@@ -240,8 +263,7 @@ The processing of Rmarkdown file is best done in Rstudio. It can also be done in
 \label{re10}This remark can be referred in the text. In the latex document using its convention. To see how it is to be done in Rmarkdown, see the converted Rmarkdown document and the text below it.
 \end{remark}
 
-
-The bibliography also can be converted. It does not have to be the last statement. 
+The bibliography also can be converted. 
 
 \printbibliography
 \end{document}
